@@ -31,6 +31,7 @@ dtbo-$(CONFIG_ARCH_BCM2835) += \
 	audiosense-pi.dtbo \
 	audremap.dtbo \
 	arpi-gpio-keys.dtbo \
+	arpi-gpio-leds.dtbo \
 	balena-fin.dtbo \
 	cap1106.dtbo \
 	chipdip-dac.dtbo \

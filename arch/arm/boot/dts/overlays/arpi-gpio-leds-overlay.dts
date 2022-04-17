@@ -1,0 +1,14 @@
+/dts-v1/;
+/plugin/;
+/ {
+    compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+    
+    fragment@0 {
+        target = <&leds>;
+        __overlay__ {
+            led-status {
+                gpios = <&gpio 12 0>;
+            };
+        };
+    };
+};
