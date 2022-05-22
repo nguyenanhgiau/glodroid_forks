@@ -1,0 +1,56 @@
+// Definitions for MPU9250
+// Combination of:
+// https://github.com/raspberrypi/linux/blob/rpi-4.9.y/arch/arm/boot/dts/overlays/mpu6050-overlay.dts
+// and https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/iio/imu/inv_mpu6050.txt
+
+// Driver codes:
+// https://github.com/torvalds/linux/blob/master/drivers/iio/imu/inv_mpu6050/
+// and
+// https://github.com/torvalds/linux/tree/master/drivers/iio/magnetometer
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2708";
+
+	fragment@0 {
+		target = <&i2c1>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+			clock-frequency = <400000>;
+
+			mpu9250: mpu9250@68 {
+				compatible = "invensense,mpu9250";
+				reg = <0x68>;
+				interrupt-parent = <&gpio>;
+				interrupts = <4 1>;
+				mount-matrix = "1",  /* x0 */
+				"0",  /* y0 */
+				"0",  /* z0 */
+				"0",  /* x1 */
+				"1",  /* y1 */
+				"0",  /* z1 */
+				"0",  /* x2 */
+				"0",  /* y2 */
+				"1";  /* z2 */
+
+				i2c-gate {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					ak8963@c {
+						compatible = "asahi-kasei,ak8963";
+						reg = <0x0c>;
+					};
+				};
+			};
+		};
+	};
+
+	__overrides__ {
+		interrupt = <&mpu9250>,"interrupts:0";
+		addr = <&mpu9250>,"reg:0";
+	};
+};
